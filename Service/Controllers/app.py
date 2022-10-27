@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+from threading import Lock
 from Actions.menu_service_impl import Menu_service_impl as Menu_service
 from sqlite3 import Date
 from Actions.table_service_impl import TableServiceImpl as TableService
@@ -9,6 +10,7 @@ from Actions.feedback_service_impl import FeedbackServiceImpl as FeedbackService
 import traceback
  
 class FlaskAppWrapper():
+    lock = Lock()
     def __init__(self):
         self.app = Flask(__name__)
         self._config()
@@ -172,7 +174,7 @@ class FlaskAppWrapper():
         
     def get_available_tables(self, year, month, day, time_slot_id):
         if request.method == 'GET':
-            if time_slot_id < 1 or time_slot_id > 11 or time_slot_id is None :
+            if time_slot_id < 1 or time_slot_id > 12 or time_slot_id is None :
                 return jsonify({"message": "Invalid time slot id"}), 400
             if len(str(year)) != 4 or year is None:
                 return jsonify({"message": "Invalid year"}), 400
@@ -219,6 +221,7 @@ class FlaskAppWrapper():
         if (content_type == 'application/json'):
             json = request.json
             try:
+                FlaskAppWrapper.lock.acquire()
                 msg = self.transaction_service.set_transaction_data(json)
                 print(msg)
                 print("\n\n\n hitting success  \n\n\n")
@@ -227,6 +230,8 @@ class FlaskAppWrapper():
             except Exception as e:
                 print("\n\n\n  error  \n\n\n" + str(e) + "\n\n\n")
                 traceback.print_tb(e.__traceback__)
+            finally:
+                FlaskAppWrapper.lock.release()
         print("\n\n\n hitting faild  \n\n\n")
         return jsonify({"success": False})
 
