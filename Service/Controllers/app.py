@@ -172,7 +172,7 @@ class FlaskAppWrapper():
         
     def get_available_tables(self, year, month, day, time_slot_id):
         if request.method == 'GET':
-            if time_slot_id < 1 or time_slot_id > 12 or time_slot_id is None :
+            if time_slot_id < 1 or time_slot_id > 11 or time_slot_id is None :
                 return jsonify({"message": "Invalid time slot id"}), 400
             if len(str(year)) != 4 or year is None:
                 return jsonify({"message": "Invalid year"}), 400

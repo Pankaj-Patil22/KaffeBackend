@@ -177,7 +177,6 @@ class TestTableRepository(TestCase):
     def test_get_available_tables_no_entry_in_db(self, mock_table_reservations):
         date=Date(2022,10,13)
         time_slot=6
-        # mock_table_reservations.query.filter_by.return_value.first.return_value=None
         self.session.query(TableReservations).filter(TableReservations.time_slot_id==time_slot, TableReservations.date==date).first().return_value = None
         response = self.table_repository.get_available_tables(time_slot,date)
         self.assertEqual(response, None)

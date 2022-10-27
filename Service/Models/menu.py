@@ -8,9 +8,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Boolean
 from sqlalchemy.sql import func
 
-engine = create_engine('sqlite:///sqlalchemy.sqlite',echo=True)
+# engine = create_engine('sqlite:///sqlalchemy.sqlite', echo=True)
+engine = create_engine(
+    'mysql+mysqlconnector://admin:qwertyuiop1234567890@kaffedb.clk3x3tl9lw0.ap-south-1.rds.amazonaws.com:3306/sqlalchemy', echo=True)
 
 base = declarative_base()
+
 
 class Menu (base):
     __tablename__ = 'menu'
@@ -24,8 +27,7 @@ class Menu (base):
     rating = Column(Integer, nullable=False)
     veg = Column(Boolean, nullable=False)
     serving_size = Column(Integer, nullable=False)
-    
-    
+
     def __init__(self, name, description, eta, price, image, rating, veg, serving_size):
         self.name = name
         self.description = description
@@ -35,5 +37,6 @@ class Menu (base):
         self.rating = rating
         self.veg = veg
         self.serving_size = serving_size
-        
+
+
 base.metadata.create_all(engine)

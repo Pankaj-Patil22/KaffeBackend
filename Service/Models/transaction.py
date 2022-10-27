@@ -3,9 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Boolean
 from sqlalchemy.sql import func
 
-engine = create_engine('sqlite:///sqlalchemy.sqlite',echo=True)
+# engine = create_engine('sqlite:///sqlalchemy.sqlite', echo=True)
+engine = create_engine(
+    'mysql+mysqlconnector://admin:qwertyuiop1234567890@kaffedb.clk3x3tl9lw0.ap-south-1.rds.amazonaws.com:3306/sqlalchemy', echo=True)
 
 base = declarative_base()
+
 
 class Transaction (base):
     __tablename__ = 'transaction'
@@ -18,9 +21,9 @@ class Transaction (base):
     table_total = Column(Integer, nullable=False)
     order_total = Column(Integer, nullable=False)
     feedback_id = Column(Integer, nullable=True)
-    payment_status = Column(Boolean, nullable=True)    
-    
-    def __init__ (self, user_id, table_id, order_id, table_total, order_total, feedback_id, payment_status):
+    payment_status = Column(Boolean, nullable=True)
+
+    def __init__(self, user_id, table_id, order_id, table_total, order_total, feedback_id, payment_status):
         self.user_id = user_id
         self.table_id = table_id
         self.order_id = order_id
@@ -28,5 +31,6 @@ class Transaction (base):
         self.order_total = order_total
         self.feedback_id = feedback_id
         self.payment_status = payment_status
-        
+
+
 base.metadata.create_all(engine)
