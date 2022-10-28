@@ -50,22 +50,29 @@ class TransactionServiceImpl(TransactionService):
         print("special_instructions", special_instructions)
         print("table_total", table_total)
         print("order_total", order_total)
-                
+               
+        if len(table_numbers) == 0 or len(table_numbers) > 12:
+            return "incorrect tables selection"
+        if table_time_slot_id == None or table_date == None:
+            return "Insuffficient table data, slot or date not choosen"
+        if len(items) == 0:
+            return "items not selected"
+
         if not self.tables_available(table_numbers, table_time_slot_id, table_date):
-            return "reservation_failed_table_not_available"
+            return "reservation failed table not available"
         
         order_id = self.validate_and_store_dishes(items , special_instructions)
         if order_id == False:
-            return "order_failed"
+            return "order failed"
         
-        # considering id as 1 since we are not using user table
+        # considering user id as 1 since we are not using user table
         transaction_id = TransactionRepository.insert_transaction_record(1, order_id, table_total, order_total, False)
         if (transaction_id == False):
-            return "transaction_failed"
+            return "transaction failed"
         
         reservation_id = self.validate_and_store_table(table_numbers, table_time_slot_id, table_date, transaction_id)
         if reservation_id == False:
-            return "reservation_failed"
+            return "reservation failed"
         
         TransactionRepository.update_table_id(transaction_id, reservation_id)
         TransactionRepository.update_payment_status(transaction_id, True)
