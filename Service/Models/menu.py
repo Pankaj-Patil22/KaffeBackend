@@ -1,14 +1,7 @@
-from datetime import datetime
-from decimal import FloatOperation
-from email.policy import default
-from click import echo
-from sqlalchemy import DATE, TIMESTAMP, VARCHAR, create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import  VARCHAR, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Boolean
-from sqlalchemy.sql import func
 
-# engine = create_engine('sqlite:///sqlalchemy.sqlite', echo=True)
 engine = create_engine(
     'mysql+mysqlconnector://admin:qwertyuiop1234567890@kaffedb.clk3x3tl9lw0.ap-south-1.rds.amazonaws.com:3306/sqlalchemy', echo=True)
 

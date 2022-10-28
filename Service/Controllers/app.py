@@ -55,8 +55,7 @@ class FlaskAppWrapper():
         @self.app.route('/get_items_feedback/<int:id>', methods=['GET'])
         def __get_items_feedback(id):
             return self.get_items_feedback(id)
-    
-        # admin apis
+ 
         @self.app.route('/remove_transaction/<int:transaction_id>', methods=['GET'])
         def __remove_transaction(transaction_id):
             return self.remove_transaction(transaction_id)

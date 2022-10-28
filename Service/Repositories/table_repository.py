@@ -1,6 +1,3 @@
-import json
-from re import T
-from sqlite3 import Date
 from flask import session
 import Models.table_model as table_model
 from sqlalchemy.orm import sessionmaker, scoped_session
@@ -183,7 +180,7 @@ class TableRepository:
                 return True
         return False
 
-# # run only once to create the database
+# #run only once to create the database
 # for i in range(8, 20,1):
 #     start_time = i
 #     end_time = i+1

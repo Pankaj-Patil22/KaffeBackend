@@ -1,8 +1,7 @@
 from unittest import TestCase
-from unittest.mock import Mock, patch, create_autospec
+from unittest.mock import patch
 from sqlite3 import Date
 
-from flask import session
 from Controllers.app import FlaskAppWrapper
 from Actions.table_service_impl import TableServiceImpl
 from Models.table_model import TableReservations

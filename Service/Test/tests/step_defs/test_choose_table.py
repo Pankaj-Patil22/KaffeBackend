@@ -9,9 +9,6 @@ scenarios('../features/choose_table.feature')
 
 @pytest.fixture
 def browser():
-  # webdriver_options = webdriver.ChromeOptions()
-  # webdriver_options.add_argument('--headless')
-  # browse = webdriver.Chrome(options=webdriver_options)
   browser = webdriver.Chrome()
   browser.implicitly_wait(50)
   yield browser

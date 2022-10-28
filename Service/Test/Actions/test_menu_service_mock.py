@@ -178,7 +178,6 @@ class Test_Menu_Service(TestCase):
         obj = menu_service_obj()
         item_id = obj.add_item_to_menu({"name": "test", "description": "test", "price": 200, "image": "test"})
         all_items = obj.get_all_items()
-        # check item is added
         for item in all_items:
             if item["item_id"] == item_id:
                 self.assertEqual(item["name"], "test")

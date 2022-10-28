@@ -1,7 +1,4 @@
-# from app import FlaskAppWrapper as app
 import Controllers.app as app
-from Actions.table_service_impl import TableServiceImpl
-from sqlite3 import Date
 
 class TestTableService:
     def test_get_available_tables(self):

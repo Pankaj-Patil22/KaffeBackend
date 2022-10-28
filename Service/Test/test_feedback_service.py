@@ -30,7 +30,6 @@ class TestFeedbackService:
         assert response.status_code == 200
         assert self.is_content_valid(response.get_data(as_text=True)) == True 
         
-     ################################
     def test_get_overall_feedback_for_get(self):
         response = app.main().get_app().test_client().get('get_overall_feedback/1')
         assert response.status_code == 200
@@ -49,7 +48,6 @@ class TestFeedbackService:
         assert response.status_code == 200
         assert self.is_feedback_content_valid(response.get_data(as_text=True), id) == True
     
-    # get_items_feedback
     def test_get_items_feedback_for_get(self):
         response = app.main().get_app().test_client().get('get_items_feedback/2')
         assert response.status_code == 200

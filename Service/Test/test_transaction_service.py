@@ -10,7 +10,6 @@ class TestTransaction:
         response = app.main().get_app().test_client().post('/transactionData/')
         assert response.status_code == 200
     
-    # not working 
     def test_post_data_success(self):
         a =  {
     "items": [

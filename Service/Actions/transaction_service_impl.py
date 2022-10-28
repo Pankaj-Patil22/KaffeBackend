@@ -65,7 +65,6 @@ class TransactionServiceImpl(TransactionService):
         if order_id == False:
             return "order failed"
         
-        # considering user id as 1 since we are not using user table
         transaction_id = TransactionRepository.insert_transaction_record(1, order_id, table_total, order_total, False)
         if (transaction_id == False):
             return "transaction failed"
