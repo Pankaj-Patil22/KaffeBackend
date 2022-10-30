@@ -241,20 +241,16 @@ class FlaskAppWrapper():
             try:
                 FlaskAppWrapper.lock.acquire()
                 msg = self.transaction_service.set_transaction_data(json)
-                print(msg)
-                print("\n\n\n hitting success  \n\n\n")
                 if (type(msg) == int):
                     return jsonify({"success": True, "transaction_id": msg})
                 else:
                     return jsonify({"success": False, "error_msg": msg})
                     
             except Exception as e:
-                print("\n\n\n  error  \n\n\n" + str(e) + "\n\n\n")
                 traceback.print_tb(e.__traceback__)
                 return jsonify({"success": False, "error": e.__traceback__})
             finally:
                 FlaskAppWrapper.lock.release()
-        print("\n\n\n hitting faild  \n\n\n")
         return jsonify({"success": False, "rare case rio de generio": "need to look"})
 
     def _corsify_actual_response(response):
