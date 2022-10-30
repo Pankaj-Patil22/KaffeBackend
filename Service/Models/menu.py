@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Boolean
 
 engine = create_engine(
-    'mysql+mysqlconnector://admin:qwertyuiop1234567890@kaffedb.clk3x3tl9lw0.ap-south-1.rds.amazonaws.com:3306/sqlalchemy', echo=True)
+    'mysql+mysqlconnector://admin:lookslikepassword@kaffe-1.cobmbcmgxtr3.ap-south-1.rds.amazonaws.com:3306/sqlalchemy', echo=True)
 
 base = declarative_base()
 

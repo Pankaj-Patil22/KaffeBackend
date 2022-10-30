@@ -67,6 +67,25 @@ class FlaskAppWrapper():
         @self.app.route('/add_item_to_menu/', methods=['POST'])
         def __add_item_to_menu():
             return self.add_item_to_menu()
+        
+        @self.app.route('/getTablesBookedForTransaction/<int:tableId>/<int:transactionId>', methods = ['GET'])
+        def __getTablesBookedForTransaction(tableId, transactionId):
+            return self.get_tables_booked_for_transaction(tableId, transactionId)
+    
+        @self.app.route('/getTansactionData/<int:transaction_id>', methods = ['GET'])
+        def __getTransactionData(transaction_id):
+            return self.get_transaction_data(transaction_id)
+    
+    def get_transaction_data(self, transaction_id):
+        data = self.transaction_service.get_transaction_data(transaction_id)
+        data = jsonify(data)
+        return data, 200
+        
+    def get_tables_booked_for_transaction(self, tableId, transactionId):
+        tables = self.table_service.get_tables_booked_for_transaction(tableId, transactionId)
+        print("\n\n here", tables)
+        response = jsonify(tables)
+        return response, 200
     
     def remove_item_from_menu(self, item_id):
         self.menu_service.remove_item_from_menu(item_id)
@@ -225,7 +244,7 @@ class FlaskAppWrapper():
                 print(msg)
                 print("\n\n\n hitting success  \n\n\n")
                 if (type(msg) == int):
-                    return jsonify({"success": True, "success_msg": msg})
+                    return jsonify({"success": True, "transaction_id": msg})
                 else:
                     return jsonify({"success": False, "error_msg": msg})
                     

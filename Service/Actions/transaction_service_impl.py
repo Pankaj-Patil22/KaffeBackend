@@ -10,7 +10,77 @@ import json
 from sqlite3 import Date
 
 class TransactionServiceImpl(TransactionService):
+    def get_transaction_data(self, transaction_id):
+        transaction_record = TransactionRepository.get_transaction_by_id(transaction_id)
+        items= ItemsRepository.get_all_items_for_order(transaction_record.order_id)
+        item_ids=[]
+        item_id_to_quantity = {}
+        for item in items:
+            item_ids.append(item.item_id)
+            item_id_to_quantity[item.item_id] = item.quantity
 
+        
+        menu_items=MenuRepository.get_all_menu_records()
+        selected_items=[]
+        for menu_item in menu_items:
+            if menu_item.item_id in item_ids:
+                selected_items.append(menu_item)
+        
+        item_data = []
+        for item in selected_items:
+            item_data.append({
+                "item_id": item.item_id,
+                "name": item.name,
+                "description": item.description,
+                "price": item.price,
+                "image": item.image,
+                "quantity": item_id_to_quantity[item.item_id]
+                })
+            
+        response = {
+            "created_date": transaction_record.created,
+            "tables": self.get_tables_booked_for_transaction(transaction_record.table_id, transaction_id),
+            "order_total": transaction_record.order_total,
+            "table_total": transaction_record.table_total,
+            "items_data": item_data
+        } 
+        return response
+
+    def get_tables_booked_for_transaction(self, tableId, transactionId):
+        tables_record = TableRepository.get_tables_for_tableID(tableId)
+        tables = self.get_tables_for_transactionID(tables_record, transactionId)
+        return tables
+
+    def get_tables_for_transactionID(self, tables_record, transactionId):
+        tables_booked = []
+        tables_record = tables_record[0]
+        if (tables_record.one == transactionId):
+            tables_booked.append(1)
+        if (tables_record.two == transactionId):
+            tables_booked.append(2)
+        if (tables_record.three == transactionId):
+            tables_booked.append(3)
+        if (tables_record.four == transactionId):
+            tables_booked.append(4)
+        if (tables_record.five == transactionId):
+            tables_booked.append(5)
+        if (tables_record.six == transactionId):
+            tables_booked.append(6)
+        if (tables_record.seven == transactionId):
+            tables_booked.append(7)
+        if (tables_record.eight == transactionId):
+            tables_booked.append(8)
+        if (tables_record.nine == transactionId):
+            tables_booked.append(9)
+        if (tables_record.ten == transactionId):
+            tables_booked.append(10)
+        if (tables_record.eleven == transactionId):
+            tables_booked.append(11)
+        if (tables_record.twelve == transactionId):
+            tables_booked.append(12)
+        
+        return tables_booked
+    
     def get_all_transactions(self):
         return TransactionRepository.get_all_transactions()
     

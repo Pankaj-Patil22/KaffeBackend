@@ -16,8 +16,10 @@ class FeedbackServiceImpl(FeedbackService):
     def get_items_in_order(self, order_id):
         items= ItemsRepository.get_all_items_for_order(order_id)
         item_ids=[]
+        item_id_to_quantity = {}
         for item in items:
             item_ids.append(item.item_id)
+            item_id_to_quantity[item.item_id] = item.quantity
 
         menu_items=MenuRepository.get_all_menu_records()
         selected_items=[]
@@ -33,6 +35,7 @@ class FeedbackServiceImpl(FeedbackService):
                 "description": item.description,
                 "price": item.price,
                 "image": item.image,
+                "quantity": item_id_to_quantity[item.item_id]
                 })
         return response
 

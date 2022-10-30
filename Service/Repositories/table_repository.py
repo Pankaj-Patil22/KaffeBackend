@@ -6,6 +6,10 @@ session = scoped_session(sessionmaker(bind=table_model.engine))
 
 class TableRepository:
     
+    def get_tables_for_tableID(tableId):
+        table_record = session.query(table_model.TableReservations).filter(table_model.TableReservations.id == tableId).all()
+        return table_record
+    
     @staticmethod
     def remove_reservations_for_transaction_id(table_id, transaction_id):
         table_record = session.query(table_model.TableReservations).filter_by(id=table_id).first()
