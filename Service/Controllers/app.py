@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import os
 from threading import Lock
@@ -16,6 +16,42 @@ class FlaskAppWrapper():
         self._config()
         self._add_services()
         
+        @self.app.route('/', methods = ['GET'])
+        def indexOnLoad():
+            return render_template('index.html')
+
+        @self.app.route('/index', methods = ['GET'])
+        def index():
+            return render_template('index.html')
+        
+        @self.app.route('/tables', methods = ['GET'])
+        def tables():
+            return render_template('tables.html')
+
+        @self.app.route('/menu', methods = ['GET'])
+        def menu():
+            return render_template('menu.html')
+
+        @self.app.route('/history', methods = ['GET'])
+        def history():
+            return render_template('history.html')
+
+        @self.app.route('/status', methods = ['GET'])
+        def status():
+            return render_template('status.html')
+
+        @self.app.route('/checkout', methods = ['GET'])
+        def checkout():
+            return render_template('checkout.html')
+        
+        @self.app.route('/feedback', methods = ['GET'])
+        def fedback():
+            return render_template('feedback.html')
+        
+        @self.app.route('/feedbackView', methods = ['GET'])
+        def fedbackView():
+            return render_template('feedback_view.html')
+
         @self.app.route('/getTableSessions/', methods = ['GET'])
         def __table_Sessions():
             return self.get_table_sessions()
@@ -218,6 +254,7 @@ class FlaskAppWrapper():
         print("transactionData")
         content_type = request.headers.get('Content-Type')
         if (content_type == 'application/json'):
+            print("-----------------------------",request)
             json = request.json
             try:
                 FlaskAppWrapper.lock.acquire()
@@ -232,7 +269,7 @@ class FlaskAppWrapper():
             except Exception as e:
                 print("\n\n\n  error  \n\n\n" + str(e) + "\n\n\n")
                 traceback.print_tb(e.__traceback__)
-                return jsonify({"success": False, "error": e.__traceback__})
+                return jsonify({"success": False, "error":str( e.__traceback__)})
             finally:
                 FlaskAppWrapper.lock.release()
         print("\n\n\n hitting faild  \n\n\n")

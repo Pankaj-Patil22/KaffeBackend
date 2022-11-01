@@ -1,0 +1,23 @@
+#!/bin/bash
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+sudo chmod 666 /var/run/docker.sock
+
+python3 -m venv
+#sudo pip3 install virtualenv
+cd /home/ec2-user/kafe-app
+sudo chmod +x scripts/start_server
+sudo python3 -m venv environment
+sudo chmod -R a+rwx environment
+source environment/bin/activate
+sudo chmod -R 777 environment
+pip install -r requirements.txt
+pip install supervisor
+pip install mysql-connector-python
+
+
+
+# new commands
+#sudo yum install docker
+#mkdir prodApp

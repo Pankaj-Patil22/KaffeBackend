@@ -1,0 +1,26 @@
+#!/bin/bash
+cd /home/ec2-user/kafe-app
+pkill supervisord
+sleep 5
+source environment/bin/activate
+#supervisord -c supervisord.conf
+
+USER=admin
+PASSWORD=cafe6789
+DATABASE=cafeDatabase
+ENDPOINT=cafe-database.clcbcurh3gmf.ap-northeast-1.rds.amazonaws.com
+PORT=3306
+
+ RESULT=`mysql -u$USER -p$PASSWORD -h $ENDPOINT -P $PORT -e "SHOW DATABASES" | grep $DATABASE`
+ if [ "$RESULT" == "$DATABASE" ]; then
+    echo "Database exist"
+ else
+    echo "Database does not exist"
+    mysql -u$USER -p$PASSWORD -h $ENDPOINT -P $PORT -Bse "CREATE DATABASE $DATABASE"
+    echo "Database Created"
+ fi
+
+IMAGE=cafeapp
+VERSION=1
+sudo docker build -t ${IMAGE}:${VERSION} .
+sudo docker run -p 80:5000 ${IMAGE}:${VERSION}

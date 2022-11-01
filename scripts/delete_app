@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo service docker stop
+sudo rm -rf /home/ec2-user/kafe-app

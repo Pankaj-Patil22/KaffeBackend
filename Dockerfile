@@ -1,4 +1,4 @@
-FROM python:3.8-alpine as base 
+FROM python:3.6-alpine as base 
 
 COPY ./requirements.txt ./flask/requirements.txt
 
